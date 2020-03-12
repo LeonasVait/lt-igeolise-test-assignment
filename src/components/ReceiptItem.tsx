@@ -1,6 +1,11 @@
 import React from "react";
 import { InputGroup, FormControl } from "react-bootstrap";
-import { ReceiptEntry } from "./Receipt";
+
+export interface ReceiptEntry {
+  name: string;
+  price: number;
+}
+
 interface Props {
   entry: ReceiptEntry;
   onChange: (ReceiptEntry) => ReceiptEntry;

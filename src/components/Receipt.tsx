@@ -1,36 +1,47 @@
 import React from "react";
 import { Card, DropdownButton, Dropdown, Button } from "react-bootstrap";
-import { ReceiptItem } from "./ReceiptItem";
+import { ReceiptItem, ReceiptEntry } from "./ReceiptItem";
 import { useState } from "react";
+import { listenerCount } from "cluster";
 
-export interface ReceiptEntry {
-  name: string;
-  price: number;
+export interface ReceiptTrackerEntry {
+  activeCategory: string;
+  entries: ReceiptEntry[];
+}
+interface Props {
+  receipt: ReceiptTrackerEntry;
+  onChange: (value: ReceiptTrackerEntry) => void;
 }
 
 const categories = ["Food", "Houseware", "Entertainment"];
 
-export const Receipt: React.FC = () => {
-  const [list, setList] = useState<ReceiptEntry[]>([]);
+export const Receipt: React.FC<Props> = ({ receipt, onChange }) => {
   const [category, setCategory] = useState<string>(categories[0]);
 
   const addItem = (): void => {
-    list.push({ name: "", price: 0 });
-    setList([...list]);
+    onChange({
+      ...receipt,
+      entries: [...receipt.entries, { name: "", price: 0 }]
+    });
   };
 
   const getReceiptItems = (): React.FC => {
-    return list.map((entry, index) => (
+    return receipt.entries.map((entry, index) => (
       <ReceiptItem
         entry={entry}
-        onChange={value => updateEntry(entry, value)}
+        onChange={value => updateItem(entry, value)}
         key={index}
       ></ReceiptItem>
     ));
   };
 
-  const updateEntry = (oldValue, value): void => {
-    setList(list.map(entry => (entry === oldValue ? value : entry)));
+  const updateItem = (oldValue, value): void => {
+    onChange({
+      ...receipt,
+      entries: receipt.entries.map(entry =>
+        entry === oldValue ? value : entry
+      )
+    });
   };
 
   const getCategoryOptions = (): React.FC => {
@@ -43,9 +54,7 @@ export const Receipt: React.FC = () => {
 
   const getTotal = (): number => {
     let sum = 0;
-    list.forEach(entry => {
-      sum += entry.price;
-    });
+    receipt.entries.forEach(({ price }) => (sum += price));
     return sum;
   };
 
