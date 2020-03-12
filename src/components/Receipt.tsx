@@ -2,7 +2,6 @@ import React from "react";
 import { Card, DropdownButton, Dropdown, Button } from "react-bootstrap";
 import { ReceiptItem, ReceiptEntry } from "./ReceiptItem";
 import { useState } from "react";
-import { listenerCount } from "cluster";
 
 export interface ReceiptTrackerEntry {
   activeCategory: string;
@@ -29,17 +28,17 @@ export const Receipt: React.FC<Props> = ({ receipt, onChange }) => {
     return receipt.entries.map((entry, index) => (
       <ReceiptItem
         entry={entry}
-        onChange={value => updateItem(entry, value)}
+        onChange={value => updateItem(index, value)}
         key={index}
       ></ReceiptItem>
     ));
   };
 
-  const updateItem = (oldValue, value): void => {
+  const updateItem = (indexChanged: number, value: ReceiptEntry): void => {
     onChange({
       ...receipt,
-      entries: receipt.entries.map(entry =>
-        entry === oldValue ? value : entry
+      entries: receipt.entries.map((entry, index) =>
+        index === indexChanged ? value : entry
       )
     });
   };

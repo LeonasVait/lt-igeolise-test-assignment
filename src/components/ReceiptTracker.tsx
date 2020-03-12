@@ -16,7 +16,11 @@ export const ReceiptTracker: React.FC = () => {
 
   const getReceipts = (): JSX.Element[] => {
     return list.map((entry, index) => (
-      <Receipt receipt={entry} onChange={updateReceipt} key={index}></Receipt>
+      <Receipt
+        receipt={entry}
+        onChange={value => updateReceipt(index, value)}
+        key={index}
+      ></Receipt>
     ));
   };
 
@@ -24,15 +28,20 @@ export const ReceiptTracker: React.FC = () => {
     setList([...list, { activeCategory: categories[0], entries: [] }]);
   };
 
-  const updateReceipt = (oldValue, value): void => {
-    setList(list.map(entry => (entry === oldValue ? value : oldValue)));
+  const updateReceipt = (
+    indexChanged: number,
+    value: ReceiptTrackerEntry
+  ): void => {
+    setList(
+      list.map((entry, index) => (index === indexChanged ? value : entry))
+    );
   };
 
   return (
-    <Card>
+    <Card className="receipt-tracker">
       <Card.Body className="receipt-list">{getReceipts()}</Card.Body>
       <Card.Footer className="flex-row-between">
-        <div className="flex-row-between" style={{ flex: 1 }}>
+        <div className="flex-row-between">
           <span>Total</span>
           <span>{getTotal()}</span>
         </div>

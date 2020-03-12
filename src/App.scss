@@ -1,0 +1,39 @@
+.flex-row-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+
+  & > * {
+    margin-right: 0.5em;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.receipt-list {
+  overflow-y: auto;
+  & > * {
+    margin-bottom: 1em;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.receipt {
+  padding: 0.5em;
+  & > * {
+    margin-bottom: 0.5em;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.receipt-tracker {
+  max-width: 500px;
+  max-height: 100vh;
+}
