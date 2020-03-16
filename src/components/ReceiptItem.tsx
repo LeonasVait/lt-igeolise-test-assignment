@@ -8,7 +8,7 @@ export interface ReceiptEntry {
 
 interface Props {
   entry: ReceiptEntry;
-  onChange: (ReceiptEntry) => ReceiptEntry;
+  onChange: (ReceiptEntry) => void;
 }
 
 export const ReceiptItem: React.FC<Props> = ({ entry, onChange }) => {

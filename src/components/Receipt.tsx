@@ -24,7 +24,7 @@ export const Receipt: React.FC<Props> = ({ receipt, onChange }) => {
     });
   };
 
-  const getReceiptItems = (): React.FC => {
+  const getReceiptItems = (): JSX.Element[] => {
     return receipt.entries.map((entry, index) => (
       <ReceiptItem
         entry={entry}
@@ -43,7 +43,7 @@ export const Receipt: React.FC<Props> = ({ receipt, onChange }) => {
     });
   };
 
-  const getCategoryOptions = (): React.FC => {
+  const getCategoryOptions = (): JSX.Element[] => {
     return categories.map((entry, index) => (
       <Dropdown.Item key={index} onClick={() => setCategory(entry)}>
         {entry}
